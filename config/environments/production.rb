@@ -83,4 +83,17 @@ Rails.application.configure do
   #required for Heroku
   #Note to set this to actual host
   config.action_mailer.default_url_options = { :host => 'http://morning-woodland-8438.herokuapp.com/' }
+
+  Paperclip.options[:command_path] = "/opt/ImageMagick/bin/"
+  
+  # Sets Paperclip to upload images to Amazon S3
+  # Uses environment variables so we don't have to save them into the code itself that goes on github
+  config.paperclip_defaults = {
+  :storage => :s3,
+  :s3_credentials => {
+    :bucket => ENV['AWS_BUCKET'],
+    :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+    :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    }
+  }
 end
